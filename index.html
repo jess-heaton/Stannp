@@ -26,7 +26,7 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
         h1 {
-            color: #004aad;
+            color: #ffffff;
         }
         p {
             font-size: 1.1em;
@@ -40,15 +40,6 @@
         a:hover {
             text-decoration: underline;
         }
-        footer {
-            text-align: center;
-            padding: 10px;
-            background-color: #004aad;
-            color: #fff;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-        }
     </style>
 </head>
 <body>
@@ -57,18 +48,20 @@
     </header>
 
     <main>
-        <p>Welcome to the Stannp Chatbot Demo. Below is a demonstration of our chatbot with a custom form extension designed specifically for your needs.</p>
+        <p>Welcome to the Stannp Chatbot Demo.</p>
 
         <p>If you would like to monitor and manage your chatbot, you can access your dashboard at <a href="https://dashboard.adanac.ai/" target="_blank">https://dashboard.adanac.ai/</a>.</p>
         <p>Your username and password are: <strong>Stannp24!</strong></p>
 
         <p>The actual chatbot on your website can be configured to only appear during non-office hours, from 5 PM to 9 AM, ensuring that your visitors are assisted even after your working hours.</p>
+
+        <p>The chatbot can only answer questions that are included in its knowledge base, which consists of all the links available at <a href="https://knowledge.stannp.com/us" target="_blank">https://knowledge.stannp.com/us</a>.</p>
+
+        <p>If the agent is unable to provide an answer, the user will be prompted to fill out a form, and the submitted information can be sent directly to your email for follow-up.</p>
+
     </main>
 
-    <footer>
-        &copy; 2024 Stannp. All rights reserved.
-    </footer>
-
+    </main>
     <script>
         const FormExtension = {
             name: 'Forms',
