@@ -125,6 +125,10 @@
                     extensions: [FormExtension]
                 }
             });
+        window.voiceflow.chat.proactive.push({
+            type: 'text',
+            payload: { message: 'Psst... i'm over here' }
+        });
         };
         document.head.appendChild(widgetScript);
     </script>
