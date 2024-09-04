@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stannp Chatbot Demo</title>
+    <title>Smarter Chatbot Demo</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -11,12 +11,6 @@
             color: #333;
             margin: 0;
             padding: 0;
-        }
-        header {
-            background-color: #281FAB;
-            color: #fff;
-            padding: 20px;
-            text-align: center;
         }
         main {
             margin: 50px auto;
@@ -26,11 +20,13 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
         h1 {
-            color: #ffffff;
+            text-align: center;
+            color: #333;
         }
         p {
             font-size: 1.1em;
             line-height: 1.6;
+            text-align: left;
         }
         a {
             color: #004aad;
@@ -40,28 +36,67 @@
         a:hover {
             text-decoration: underline;
         }
+        ul, ol {
+            margin-left: 20px;
+            text-align: left;
+        }
+        .bold {
+            font-weight: bold;
+        }
+
+        /* Styling for the Stripe Buy Button */
+        stripe-buy-button {
+            display: block;
+            margin: 20px auto; /* Center the button */
+        }
     </style>
 </head>
 <body>
-    <header>
-        <h1>Stannp Chatbot Demo</h1>
-    </header>
-
     <main>
-        <p>Welcome to the Stannp Chatbot Demo.</p>
-
-        <p>To monitor your chatbot and manage your knowledge base, you can access your dashboard at <a href="https://dashboard.adanac.ai/" target="_blank">https://dashboard.adanac.ai/</a>.</p>
-        <p>Your username and password are: <strong>Stannp24!</strong></p>
-
-        <p>The actual chatbot on your website can be configured to only appear during non-office hours, so your customers have 24/7 assistance.</p>
-
-        <p>The chatbot will only respond with information included in its knowledge base, which includes <a href="https://knowledge.stannp.com/us" target="_blank">https://knowledge.stannp.com/us</a>.</p>
-
-        <p>If the chatbot is unable to find an answer, the user will be prompted to fill out a form, and the submitted information can be sent directly to your email for follow-up.</p>
+        <h1>Welcome to the Stannp Chatbot Demo</h1>
         
+        <p>Monitor and manage your agent through your dashboard at <a href="https://dashboard.adanac.ai/" target="_blank">dashboard.adanac.ai</a>. Username and password: <strong>Stannp24!</strong></p>
+        
+        <p>Your agent’s responses are currently limited to this page: <a href="https://knowledge.stannp.com/us" target="_blank">https://knowledge.stannp.com/us</a></p>
+        
+        <p>If it can’t find an answer, users will be prompted to fill out a form, and their responses will be sent directly to your email for follow-up.</p>
+        
+        <p>Setting up your AI Agent “Addie” is quick and easy:</p>
+        <ol>
+            <li>Submit your website to Addie’s knowledge base and specify where to send any questions that Addie can't answer.</li>
+            <li>Simply embed the code on your site and a pop-up widget will appear instantly.</li>
+            <li>Start using the dashboard to monitor transcripts and analytics.</li>
+            <li>Improve the chatbot by updating the knowledge base to confidently handle more queries over time.</li>
+        </ol>
+        
+        <p>Our Starter FAQ Agent package is available for £150 per month, and it includes:</p>
+        <ul>
+            <li>AI-powered FAQ agent “Addie”</li>
+            <li>Pop-up chatbot widget code</li>
+            <li>10 queries per day</li>
+            <li>Dashboard analytics</li>
+            <li>Unlimited knowledge base</li>
+            <li>Lead capture abilities</li>
+            <li>Custom branding</li>
+            <li>Latest GPT-4 model</li>
+            <li>Option for widget to only appear during non-office hours</li>
+        </ul>
+        
+        <p>Add-ons:</p>
+        <ul>
+            <li>Additional agents</li>
+            <li>Custom integrations (Instagram, email…)</li>
+            <li>Raise daily query limit</li>
+        </ul>
+
+        <!-- Stripe Buy Button -->
+        <script async src="https://js.stripe.com/v3/buy-button.js"></script>
+        <stripe-buy-button
+          buy-button-id="buy_btn_1PvDnwDxxI4WXwGxyAo6hz44"
+          publishable-key="pk_live_51OsA0uDxxI4WXwGxv3auGXCn4SyVDqe8Tjs5siybENVgNxDbuFggYw6DxPfbq7X0SKnG7fRk7b5CSrwtC2TGhf1E00gHU6mwcf">
+        </stripe-buy-button>
     </main>
 
-    </main>
     <script>
         const FormExtension = {
             name: 'Forms',
@@ -124,9 +159,18 @@
                 assistant: {
                     extensions: [FormExtension]
                 }
+            })
+            .then(() => {
+                window.voiceflow.chat.proactive.push({
+                    type: 'text',
+                    payload: { message: 'Psst... over here!'}
+                });
+            })
+            .catch((error) => {
+                console.error("Error loading Voiceflow chat:", error);
             });
-
         };
+
         document.head.appendChild(widgetScript);
     </script>
 </body>
