@@ -53,7 +53,12 @@
 <body>
     <main>
         <h1>Stannp Demo</h1>
+
+        <!-- Add this div where you want the chatbox to appear -->
+<div id="flat-chat" style="width: 100%; height: 500px; border: 1px solid #ccc;"></div>
+
     </main>
+
 <script>
   const FormExtension = {
     name: 'Forms',
@@ -107,18 +112,6 @@
         <input type="submit" class="submit" value="Submit">
       `;
 
-      formContainer.addEventListener('input', function () {
-        const name = formContainer.querySelector('.name');
-        const phone = formContainer.querySelector('.phone');
-        const email = formContainer.querySelector('.email');
-        const company = formContainer.querySelector('.company');
-
-        if (name.checkValidity()) name.classList.remove('invalid');
-        if (phone.checkValidity()) phone.classList.remove('invalid');
-        if (email.checkValidity()) email.classList.remove('invalid');
-        if (company.checkValidity()) company.classList.remove('invalid');
-      });
-
       formContainer.addEventListener('submit', function (event) {
         event.preventDefault();
 
@@ -126,21 +119,6 @@
         const phone = formContainer.querySelector('.phone');
         const email = formContainer.querySelector('.email');
         const company = formContainer.querySelector('.company');
-
-        if (
-          !name.checkValidity() ||
-          !phone.checkValidity() ||
-          !email.checkValidity() ||
-          !company.checkValidity()
-        ) {
-          name.classList.add('invalid');
-          phone.classList.add('invalid');
-          email.classList.add('invalid');
-          company.classList.add('invalid');
-          return;
-        }
-
-        formContainer.querySelector('.submit').remove();
 
         window.voiceflow.chat.interact({
           type: 'complete',
@@ -156,37 +134,29 @@
       element.appendChild(formContainer);
     },
   };
-</script>
 
-<script type="text/javascript">
-  (function(d, t) {
-      var v = d.createElement(t), s = d.getElementsByTagName(t)[0];
-      v.onload = function() {
-        window.voiceflow.chat.load({
-          verify: { projectID: '675cb8a7bdfd5f757ce98441' },
-          url: 'https://general-runtime.voiceflow.com',
-          versionID: 'production',
-          assistant: {
-            extensions: [FormExtension]
-          }
-        }).then(() => {
-          // Set up proactive message
-          window.voiceflow.chat.proactive.clear();
-          window.voiceflow.chat.proactive.push({ 
-            type: 'text', 
-            payload: { message: 'Hi there! Need help?' }
-          });
-
-          // Open the chat proactively after a short delay
-          setTimeout(function () {
-            window.voiceflow.chat.open();
-          }, 2000);
-        });
-      };
-      v.src = "https://cdn.voiceflow.com/widget/bundle.mjs"; 
-      v.type = "text/javascript"; 
-      s.parentNode.insertBefore(v, s);
+  // Load the embedded chat widget
+  (function (d, t) {
+    var v = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    v.onload = function () {
+      window.voiceflow.chat.load({
+        verify: { projectID: '675cb8a7bdfd5f757ce98441' },
+        url: 'https://general-runtime.voiceflow.com',
+        versionID: 'production',
+        render: {
+          mode: 'embedded',
+          target: document.getElementById('flat-chat'),
+        },
+        autostart: true,
+        assistant: { extensions: [FormExtension] },
+      });
+    };
+    v.src = 'https://cdn.voiceflow.com/widget/bundle.mjs';
+    v.type = 'text/javascript';
+    s.parentNode.insertBefore(v, s);
   })(document, 'script');
 </script>
+
 </body>
 </html>
