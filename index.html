@@ -49,9 +49,14 @@
     <main>
         <h1>Stannp Demo</h1>
 
-<div id="flat-chat" style="width: 100%; height: 500px; border: 1px solid #ccc; border-radius: 12px; overflow: hidden;"></div>
+<div id="flat-chat" style="width: 80%; height: 600px; border: 1px solid #ccc; border-radius: 12px; overflow: hidden;"></div>
+
 
     </main>
+
+
+// Add everything before the closing </body> tag
+
 <script>
   const FormExtension = {
     name: 'Forms',
@@ -128,13 +133,31 @@
     },
   };
 
-  // Load the embedded chat widget
+  // Load the pop-up chat widget
   (function (d, t) {
     var v = d.createElement(t),
       s = d.getElementsByTagName(t)[0];
     v.onload = function () {
       window.voiceflow.chat.load({
-        verify: { projectID: '675cb8a7bdfd5f757ce98441' },
+        verify: { projectID: '6760adeb289aab95d4721254' },
+        url: 'https://general-runtime.voiceflow.com',
+        versionID: 'production',
+        assistant: { extensions: [FormExtension] },
+      });
+    };
+    v.src = 'https://cdn.voiceflow.com/widget/bundle.mjs';
+    v.type = 'text/javascript';
+    s.parentNode.insertBefore(v, s);
+  })(document, 'script');
+
+    
+// Load the embedded chat widget
+  (function (d, t) {
+    var v = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    v.onload = function () {
+      window.voiceflow.chat.load({
+        verify: { projectID: '6760adeb289aab95d4721254' },
         url: 'https://general-runtime.voiceflow.com',
         versionID: 'production',
         render: {
@@ -151,5 +174,10 @@
   })(document, 'script');
 </script>
 
+</script>
+
+
+
+    
 </body>
 </html>
