@@ -41,193 +41,286 @@
 
   </main>
 
-<script>
-const MultiFormsExtension = {
-  name: 'Forms',
-  type: 'response',
-  match: ({ trace }) =>
-    trace.type === 'ext_form' || trace.payload.name === 'ext_form',
+  <script>
+  // =====================================================
+  // 1) FOLLOW-UP FORM EXTENSION (Custom_Form_FollowUp)
+  // =====================================================
+  const FollowUpFormExtension = {
+    name: 'FollowUpForm',
+    type: 'response',
+    match: ({ trace }) =>
+      trace.type === 'Custom_Form_FollowUp' ||
+      trace.payload.name === 'Custom_Form_FollowUp',
+    render: ({ trace, element }) => {
+      const formContainer = document.createElement('form');
+      formContainer.innerHTML = `
+        <style>
+          label {
+            font-size: 0.8em;
+            color: #888;
+          }
+          input[type="text"],
+          input[type="email"],
+          input[type="tel"] {
+            width: 100%;
+            border: none;
+            border-bottom: 0.5px solid rgba(0, 0, 0, 0.1);
+            background: transparent;
+            margin: 5px 0;
+            outline: none;
+            padding: 8px 0;
+          }
+          .submit {
+            background: linear-gradient(to right, #2e6ee1, #2e7ff1);
+            border: none;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            width: 100%;
+            cursor: pointer;
+          }
+        </style>
 
-  render: ({ trace, element }) => {
-    // We'll assume Voiceflow is sending something like:
-    // { type: 'ext_form', payload: { formType: 'followUp' } } 
-    // or { type: 'ext_form', payload: { formType: 'requestSamples' } }
-    // or { type: 'ext_form', payload: { formType: 'scheduleDemo' } }
-    
-    const { formType } = trace.payload || {};
-
-    // We'll create a function that builds the correct HTML form
-    // depending on formType
-    let formHTML = '';
-    let formCSS = `
-      <style>
-        label {
-          font-size: 0.8em;
-          color: #888;
-        }
-        input[type="text"],
-        input[type="email"],
-        input[type="tel"],
-        input[type="datetime-local"] {
-          width: 100%;
-          border: none;
-          border-bottom: 0.5px solid rgba(0,0,0,.1);
-          background: transparent;
-          margin: 5px 0;
-          outline: none;
-          padding: 8px 0;
-        }
-        .submit {
-          background: linear-gradient(to right, #2e6ee1, #2e7ff1);
-          border: none;
-          color: white;
-          padding: 10px;
-          border-radius: 5px;
-          width: 100%;
-          cursor: pointer;
-        }
-      </style>`;
-
-    if (formType === 'followUp') {
-      // ~~~~~~~~~~~~~~~~~~~
-      // Build Follow-Up Form
-      // ~~~~~~~~~~~~~~~~~~~
-      formHTML = `
-        ${formCSS}
         <label for="name">Name</label>
-        <input type="text" class="name" required><br><br>
+        <input type="text" class="name" name="name" required><br><br>
 
         <label for="phone">Phone Number</label>
-        <input type="tel" class="phone" required pattern="\\+?[0-9\\- ]+" title="Invalid phone number"><br><br>
+        <input type="tel" class="phone" name="phone"
+               required pattern="\\+?[0-9\\- ]+"
+               title="Invalid phone number"><br><br>
 
         <label for="email">Work Email</label>
-        <input type="email" class="email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}$" title="Invalid email"><br><br>
+        <input type="email" class="email" name="email"
+               required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}$"
+               title="Invalid email address"><br><br>
 
         <label for="company">Company Name</label>
-        <input type="text" class="company" required><br><br>
+        <input type="text" class="company" name="company" required><br><br>
 
         <input type="submit" class="submit" value="Submit">
       `;
-    } 
-    else if (formType === 'requestSamples') {
-      // ~~~~~~~~~~~~~~~~~~~~~~
-      // Build Request Samples
-      // ~~~~~~~~~~~~~~~~~~~~~~
-      formHTML = `
-        ${formCSS}
+
+      formContainer.addEventListener('submit', function (event) {
+        event.preventDefault();
+        const name = formContainer.querySelector('.name').value;
+        const phone = formContainer.querySelector('.phone').value;
+        const email = formContainer.querySelector('.email').value;
+        const company = formContainer.querySelector('.company').value;
+
+        window.voiceflow.chat.interact({
+          type: 'complete',
+          payload: { name, phone, email, company },
+        });
+      });
+
+      element.appendChild(formContainer);
+    },
+  };
+
+  // =====================================================
+  // 2) REQUEST SAMPLES FORM EXTENSION (Custom_Form_RequestSamples)
+  // =====================================================
+  const SamplesFormExtension = {
+    name: 'SamplesForm',
+    type: 'response',
+    match: ({ trace }) =>
+      trace.type === 'Custom_Form_RequestSamples' ||
+      trace.payload.name === 'Custom_Form_RequestSamples',
+    render: ({ trace, element }) => {
+      const formContainer = document.createElement('form');
+      formContainer.innerHTML = `
+        <style>
+          label {
+            font-size: 0.8em;
+            color: #888;
+          }
+          input[type="text"] {
+            width: 100%;
+            border: none;
+            border-bottom: 0.5px solid rgba(0, 0, 0, 0.1);
+            background: transparent;
+            margin: 5px 0;
+            outline: none;
+            padding: 8px 0;
+          }
+          .submit {
+            background: linear-gradient(to right, #2e6ee1, #2e7ff1);
+            border: none;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            width: 100%;
+            cursor: pointer;
+          }
+        </style>
+
         <label for="name">Name</label>
-        <input type="text" class="name" required><br><br>
+        <input type="text" class="name" name="name" required><br><br>
 
         <label for="postal">Postal Address</label>
-        <input type="text" class="postal" required><br><br>
+        <input type="text" class="postal" name="postal" required><br><br>
 
         <label for="company">Company Name</label>
-        <input type="text" class="company" required><br><br>
+        <input type="text" class="company" name="company" required><br><br>
 
         <input type="submit" class="submit" value="Submit">
       `;
-    }
-    else if (formType === 'scheduleDemo') {
-      // ~~~~~~~~~~~~~~~~~~~~
-      // Build Schedule Demo
-      // ~~~~~~~~~~~~~~~~~~~~
-      // Optionally set some min/max date logic
+
+      formContainer.addEventListener('submit', function (event) {
+        event.preventDefault();
+        const name = formContainer.querySelector('.name').value;
+        const postal = formContainer.querySelector('.postal').value;
+        const company = formContainer.querySelector('.company').value;
+
+        window.voiceflow.chat.interact({
+          type: 'complete',
+          payload: { name, postal, company },
+        });
+      });
+
+      element.appendChild(formContainer);
+    },
+  };
+
+  // =====================================================
+  // 3) SCHEDULE DEMO FORM EXTENSION (Custom_Form_ScheduleDemo)
+  // =====================================================
+  const ScheduleDemoFormExtension = {
+    name: 'ScheduleDemoForm',
+    type: 'response',
+    match: ({ trace }) =>
+      trace.type === 'Custom_Form_ScheduleDemo' ||
+      trace.payload.name === 'Custom_Form_ScheduleDemo',
+    render: ({ trace, element }) => {
+      const formContainer = document.createElement('form');
+
       let currentDate = new Date();
       let minDate = new Date();
       minDate.setMonth(currentDate.getMonth() - 1);
       let maxDate = new Date();
       maxDate.setMonth(currentDate.getMonth() + 2);
-      const minDateString = minDate.toISOString().slice(0, 16);
-      const maxDateString = maxDate.toISOString().slice(0, 16);
 
-      formHTML = `
-        ${formCSS}
+      let minDateString = minDate.toISOString().slice(0, 16);
+      let maxDateString = maxDate.toISOString().slice(0, 16);
+
+      formContainer.innerHTML = `
+        <style>
+          label {
+            font-size: 0.8em;
+            color: #888;
+          }
+          input[type="text"],
+          input[type="email"],
+          input[type="tel"],
+          input[type="datetime-local"] {
+            width: 100%;
+            border: none;
+            border-bottom: 0.5px solid rgba(0, 0, 0, 0.1);
+            background: transparent;
+            margin: 5px 0;
+            outline: none;
+            padding: 8px 0;
+          }
+          input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+            border: none;
+            background: transparent;
+            border-bottom: 0.5px solid rgba(0, 0, 0, 0.1);
+            outline: none;
+            color: transparent;
+            cursor: pointer;
+            height: auto;
+            position: relative;
+            padding:6px;
+          }
+          .submit {
+            background: linear-gradient(to right, #2e6ee1, #2e7ff1);
+            border: none;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            width: 100%;
+            cursor: pointer;
+          }
+        </style>
+
+        <!-- Date/Time -->
         <label for="datetime">Select your date/time</label>
         <input type="datetime-local" id="datetime" name="datetime"
-               min="${minDateString}" max="${maxDateString}" required><br><br>
+               min="${minDateString}" max="${maxDateString}"
+               required><br><br>
 
+        <!-- Name -->
         <label for="name">Name</label>
-        <input type="text" class="name" required><br><br>
+        <input type="text" class="name" name="name" required><br><br>
 
+        <!-- Company -->
         <label for="company">Company Name</label>
-        <input type="text" class="company" required><br><br>
+        <input type="text" class="company" name="company" required><br><br>
 
+        <!-- Email -->
         <label for="email">Email</label>
-        <input type="email" class="email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}$"><br><br>
+        <input type="email" class="email" name="email"
+               required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}$"
+               title="Invalid email address"><br><br>
 
+        <!-- Phone -->
         <label for="phone">Phone Number</label>
-        <input type="tel" class="phone" required pattern="\\+?[0-9\\- ]+"><br><br>
+        <input type="tel" class="phone" name="phone"
+               required pattern="\\+?[0-9\\- ]+"
+               title="Invalid phone number"><br><br>
 
         <input type="submit" class="submit" value="Submit">
       `;
-    }
-    else {
-      // No recognized formType
-      formHTML = '<div>Form Type not recognized.</div>';
-    }
 
-    // Insert that HTML
-    const formContainer = document.createElement('form');
-    formContainer.innerHTML = formHTML;
-    
-    // On SUBMIT:
-    formContainer.addEventListener('submit', function (event) {
-      event.preventDefault();
+      formContainer.addEventListener('submit', function (event) {
+        event.preventDefault();
+        const datetime = formContainer.querySelector('#datetime').value;
+        let [date, time] = datetime.split('T') || ['', ''];
 
-      // Grab all your fields
-      const name = formContainer.querySelector('.name')?.value || '';
-      const email = formContainer.querySelector('.email')?.value || '';
-      const phone = formContainer.querySelector('.phone')?.value || '';
-      const company = formContainer.querySelector('.company')?.value || '';
-      const postal = formContainer.querySelector('.postal')?.value || '';
-      const datetimeValue = formContainer.querySelector('#datetime')?.value || '';
-      // If datetimeValue has 'T', separate out date + time
-      let [date, time] = datetimeValue.split('T') || ['', ''];
+        const name = formContainer.querySelector('.name').value;
+        const company = formContainer.querySelector('.company').value;
+        const email = formContainer.querySelector('.email').value;
+        const phone = formContainer.querySelector('.phone').value;
 
-      // Send data back to Voiceflow
-      window.voiceflow.chat.interact({
-        type: 'complete',
-        payload: {
-          formType,
-          name,
-          email,
-          phone,
-          company,
-          postal,
-          date,
-          time
+        window.voiceflow.chat.interact({
+          type: 'complete',
+          payload: { date, time, name, company, email, phone },
+        });
+      });
+
+      element.appendChild(formContainer);
+    },
+  };
+
+  // =====================================================
+  // 4) LOAD THE WIDGET WITH EXTENSIONS
+  // =====================================================
+  (function (d, t) {
+    var v = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    v.onload = function () {
+      window.voiceflow.chat.load({
+        verify: { projectID: '6788c212a009f3b7ee57911b' }, 
+        url: 'https://general-runtime.voiceflow.com',
+        versionID: 'production',
+        render: {
+          mode: 'embedded',
+          target: document.getElementById('flat-chat'),
+        },
+        autostart: true,
+        assistant: {
+          extensions: [
+            FollowUpFormExtension,
+            SamplesFormExtension,
+            ScheduleDemoFormExtension
+          ]
         },
       });
-    });
-
-    // Finally, attach to the chat element
-    element.appendChild(formContainer);
-  }
-};
-
-// Then, load the widget:
-(function (d, t) {
-  var v = d.createElement(t),
-    s = d.getElementsByTagName(t)[0];
-  v.onload = function () {
-    window.voiceflow.chat.load({
-      verify: { projectID: 'YOUR_PROJECT_ID' },
-      url: 'https://general-runtime.voiceflow.com',
-      versionID: 'production',
-      render: {
-        mode: 'embedded',
-        target: document.getElementById('flat-chat'),
-      },
-      autostart: true,
-      assistant: {
-        extensions: [MultiFormsExtension],
-      },
-    });
-  };
-  v.src = 'https://cdn.voiceflow.com/widget/bundle.mjs';
-  v.type = 'text/javascript';
-  s.parentNode.insertBefore(v, s);
-})(document, 'script');
-</script>
+    };
+    v.src = 'https://cdn.voiceflow.com/widget/bundle.mjs';
+    v.type = 'text/javascript';
+    s.parentNode.insertBefore(v, s);
+  })(document, 'script');
+  </script>
 </body>
 </html>
