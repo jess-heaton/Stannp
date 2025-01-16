@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Stannp Chatbot Demo</title>
+
+  <!-- STYLES -->
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -31,6 +33,12 @@
       margin: 0 auto;
     }
   </style>
+
+  <!-- FLATPICKR CSS (needed for the popup calendar styling) -->
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
+  />
 </head>
 <body>
   <main>
@@ -41,10 +49,10 @@
 
   </main>
 
+  <!-- =====================================================
+       1) FOLLOW-UP FORM EXTENSION
+  ===================================================== -->
   <script>
-  // =====================================================
-  // 1) FOLLOW-UP FORM EXTENSION (Custom_Form_FollowUp)
-  // =====================================================
   const FollowUpFormExtension = {
     name: 'FollowUpForm',
     type: 'response',
@@ -116,10 +124,12 @@
       element.appendChild(formContainer);
     },
   };
+  </script>
 
-  // =====================================================
-  // 2) REQUEST SAMPLES FORM EXTENSION (Custom_Form_RequestSamples)
-  // =====================================================
+  <!-- =====================================================
+       2) REQUEST SAMPLES FORM EXTENSION
+  ===================================================== -->
+  <script>
   const SamplesFormExtension = {
     name: 'SamplesForm',
     type: 'response',
@@ -181,11 +191,13 @@
       element.appendChild(formContainer);
     },
   };
+  </script>
 
-  // =====================================================
-  // 3) SCHEDULE DEMO FORM EXTENSION (Custom_Form_ScheduleDemo)
-  //    [Incorporates the “quick calendar” style from your snippet]
-  // =====================================================
+  <!-- =====================================================
+       3) SCHEDULE DEMO FORM EXTENSION
+       [Incorporates flatpickr for a "cool" popup calendar/time picker]
+  ===================================================== -->
+  <script>
   const ScheduleDemoFormExtension = {
     name: 'ScheduleDemoForm',
     type: 'response',
@@ -195,17 +207,14 @@
     render: ({ trace, element }) => {
       const formContainer = document.createElement('form');
 
+      // Calculate min and max date ranges
       let currentDate = new Date();
-      let minDate = new Date();
-      minDate.setMonth(currentDate.getMonth() - 1);
-      let maxDate = new Date();
-      maxDate.setMonth(currentDate.getMonth() + 2);
+      let minDate = new Date(currentDate);
+      minDate.setMonth(minDate.getMonth() - 1); // minus 1 month
+      let maxDate = new Date(currentDate);
+      maxDate.setMonth(maxDate.getMonth() + 2); // plus 2 months
 
-      let minDateString = minDate.toISOString().slice(0, 16);
-      let maxDateString = maxDate.toISOString().slice(0, 16);
-
-      // NOTE: The only real addition here is the ::-webkit-calendar-picker-indicator styling
-      //       so that the date/time input shows a handy calendar/time picker.
+      // Build the form
       formContainer.innerHTML = `
         <style>
           label {
@@ -214,8 +223,7 @@
           }
           input[type="text"],
           input[type="email"],
-          input[type="tel"],
-          input[type="datetime-local"] {
+          input[type="tel"] {
             width: 100%;
             border: none;
             border-bottom: 0.5px solid rgba(0, 0, 0, 0.1);
@@ -223,17 +231,6 @@
             margin: 5px 0;
             outline: none;
             padding: 8px 0;
-          }
-          /* Quick calendar/time icon on focus or click */
-          input[type="datetime-local"]::-webkit-calendar-picker-indicator {
-            border: none;
-            background: transparent;
-            outline: none;
-            color: transparent;
-            cursor: pointer;
-            height: auto;
-            position: relative;
-            padding: 6px;
           }
           .submit {
             background: linear-gradient(to right, #2e6ee1, #2e7ff1);
@@ -248,9 +245,11 @@
 
         <!-- Date/Time -->
         <label for="datetime">Select your date/time</label>
-        <input type="datetime-local" id="datetime" name="datetime"
-               min="${minDateString}" max="${maxDateString}"
-               required><br><br>
+        <!-- 
+          Replace type="datetime-local" with type="text" so that
+          flatpickr can handle the popup calendar/time selection
+        -->
+        <input type="text" id="datetime" name="datetime" required><br><br>
 
         <!-- Name -->
         <label for="name">Name</label>
@@ -275,31 +274,47 @@
         <input type="submit" class="submit" value="Submit">
       `;
 
+      // Attach the form to the DOM first
+      element.appendChild(formContainer);
+
+      // Now that the element is in the DOM, let's initialize flatpickr on #datetime
+      flatpickr('#datetime', {
+        enableTime: true,
+        dateFormat: 'Y-m-d H:i',
+        // Convert JS Dates into a format flatpickr can handle
+        minDate: minDate, // new Date() object is fine
+        maxDate: maxDate,
+      });
+
+      // Listen for the form submission
       formContainer.addEventListener('submit', function (event) {
         event.preventDefault();
-        const datetime = formContainer.querySelector('#datetime').value;
-        let [date, time] = datetime.split('T') || ['', ''];
+        const rawValue = formContainer.querySelector('#datetime').value;
+        // rawValue might look like "2025-05-12 14:30" (depending on dateFormat)
+        // Split on the space to get date/time separately
+        let [date, time] = rawValue.split(' ') || ['', ''];
 
         const name = formContainer.querySelector('.name').value;
         const company = formContainer.querySelector('.company').value;
         const email = formContainer.querySelector('.email').value;
         const phone = formContainer.querySelector('.phone').value;
 
-        // Returns these six variables:
-        // date, time, name, company, email, phone
         window.voiceflow.chat.interact({
           type: 'complete',
           payload: { date, time, name, company, email, phone },
         });
       });
-
-      element.appendChild(formContainer);
     },
   };
+  </script>
 
-  // =====================================================
-  // 4) LOAD THE WIDGET WITH EXTENSIONS
-  // =====================================================
+  <!-- FLATPICKR JS (needed for the popup calendar/time picker) -->
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+  <!-- =====================================================
+       4) LOAD THE WIDGET WITH EXTENSIONS
+  ===================================================== -->
+  <script>
   (function (d, t) {
     var v = d.createElement(t),
       s = d.getElementsByTagName(t)[0];
