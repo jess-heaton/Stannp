@@ -117,9 +117,10 @@
         const phone = formContainer.querySelector('.phone').value;
         const email = formContainer.querySelector('.email').value;
         const company = formContainer.querySelector('.company').value;
-
+          
         // Grab the current URL
         const currentURL = window.location.href;
+        console.log('Current URL is:', currentURL); // Debugging: see if you get the URL
 
         // Send it all to Voiceflow, including the URL
         window.voiceflow.chat.interact({
