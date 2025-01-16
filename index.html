@@ -44,9 +44,6 @@
   <main>
     <h1>Stannp Demo</h1>
 
-    <!-- Chat widget container -->
-    <div id="flat-chat"></div>
-
   </main>
 
   <!-- =====================================================
@@ -211,31 +208,22 @@
      3) LOAD THE WIDGET WITH EXTENSIONS
 ===================================================== -->
 <script>
-(function (d, t) {
-  var v = d.createElement(t),
-    s = d.getElementsByTagName(t)[0];
-  v.onload = function () {
-    window.voiceflow.chat.load({
-      verify: { projectID: '6788c212a009f3b7ee57911b' }, 
-      url: 'https://general-runtime.voiceflow.com',
-      versionID: 'production',
-      render: {
-        mode: 'embedded',
-        target: document.getElementById('flat-chat'),
-      },
-      autostart: true,
-      assistant: {
-        extensions: [
-          FollowUpFormExtension,
-          SamplesFormExtension
-        ]
-      },
-    });
-  };
-  v.src = 'https://cdn.voiceflow.com/widget/bundle.mjs';
-  v.type = 'text/javascript';
-  s.parentNode.insertBefore(v, s);
-})(document, 'script');
+  // Load the pop-up chat widget
+  (function (d, t) {
+    var v = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    v.onload = function () {
+      window.voiceflow.chat.load({
+        verify: { projectID: '6760adeb289aab95d4721254' },
+        url: 'https://general-runtime.voiceflow.com',
+        versionID: 'production',
+        assistant: { extensions: [FollowUpFormExtension, SamplesFormExtension] },
+      });
+    };
+    v.src = 'https://cdn.voiceflow.com/widget/bundle.mjs';
+    v.type = 'text/javascript';
+    s.parentNode.insertBefore(v, s);
+  })(document, 'script');
 </script>
 </body>
 </html>
