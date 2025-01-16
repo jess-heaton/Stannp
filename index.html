@@ -52,7 +52,10 @@
   <!-- =====================================================
        1) FOLLOW-UP FORM EXTENSION
   ===================================================== -->
-  <script>
+<script>
+  // =====================================================
+  // 1) FOLLOW UP FORM EXTENSION
+  // =====================================================
   const FollowUpFormExtension = {
     name: 'FollowUpForm',
     type: 'response',
@@ -115,21 +118,31 @@
         const email = formContainer.querySelector('.email').value;
         const company = formContainer.querySelector('.company').value;
 
+        // Grab the current URL
+        const currentURL = window.location.href;
+
+        // Send it all to Voiceflow, including the URL
         window.voiceflow.chat.interact({
           type: 'complete',
-          payload: { name, phone, email, company },
+          payload: { 
+            name, 
+            phone, 
+            email, 
+            company,
+            url: currentURL // <--- here!
+          },
         });
       });
 
       element.appendChild(formContainer);
     },
   };
-  </script>
+</script>
 
-  <!-- =====================================================
-       2) REQUEST SAMPLES FORM EXTENSION
-  ===================================================== -->
-  <script>
+<!-- =====================================================
+     2) REQUEST SAMPLES FORM EXTENSION
+===================================================== -->
+<script>
   const SamplesFormExtension = {
     name: 'SamplesForm',
     type: 'response',
@@ -191,36 +204,37 @@
       element.appendChild(formContainer);
     },
   };
-  </script>
-  <!-- =====================================================
-       4) LOAD THE WIDGET WITH EXTENSIONS
-  ===================================================== -->
-  <script>
-  (function (d, t) {
-    var v = d.createElement(t),
-      s = d.getElementsByTagName(t)[0];
-    v.onload = function () {
-      window.voiceflow.chat.load({
-        verify: { projectID: '6788c212a009f3b7ee57911b' }, 
-        url: 'https://general-runtime.voiceflow.com',
-        versionID: 'production',
-        render: {
-          mode: 'embedded',
-          target: document.getElementById('flat-chat'),
-        },
-        autostart: true,
-        assistant: {
-          extensions: [
-            FollowUpFormExtension,
-            SamplesFormExtension
-          ]
-        },
-      });
-    };
-    v.src = 'https://cdn.voiceflow.com/widget/bundle.mjs';
-    v.type = 'text/javascript';
-    s.parentNode.insertBefore(v, s);
-  })(document, 'script');
-  </script>
+</script>
+
+<!-- =====================================================
+     3) LOAD THE WIDGET WITH EXTENSIONS
+===================================================== -->
+<script>
+(function (d, t) {
+  var v = d.createElement(t),
+    s = d.getElementsByTagName(t)[0];
+  v.onload = function () {
+    window.voiceflow.chat.load({
+      verify: { projectID: '6788c212a009f3b7ee57911b' }, 
+      url: 'https://general-runtime.voiceflow.com',
+      versionID: 'production',
+      render: {
+        mode: 'embedded',
+        target: document.getElementById('flat-chat'),
+      },
+      autostart: true,
+      assistant: {
+        extensions: [
+          FollowUpFormExtension,
+          SamplesFormExtension
+        ]
+      },
+    });
+  };
+  v.src = 'https://cdn.voiceflow.com/widget/bundle.mjs';
+  v.type = 'text/javascript';
+  s.parentNode.insertBefore(v, s);
+})(document, 'script');
+</script>
 </body>
 </html>
