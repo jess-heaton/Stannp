@@ -6,29 +6,21 @@
   <title>Form Extension</title>
 </head>
 <body>
-  <!-- Container for the embedded chat -->
-  <div id="flat-chat" style="width: 100%; height: 600px;"></div>
 
-  <script>
-// grab projectID based on region
-const body = document.querySelector('body');
-var aiChatbot = "";
-if (body.dataset.region.toLowerCase() == "uk" || body.dataset.region.toLowerCase() == "gb"){  
-  aiChatbot = '675cb8a7bdfd5f757ce98441';		
-} else if (body.dataset.region.toLowerCase() == "ca" ){
-  aiChatbot = '6760adeb289aab95d4721254';
-} else { // US
-  aiChatbot = '6760adeb289aab95d4721254';
-}
+  <!-- Somewhere in your HTML, add a target container for the embedded chat -->
+<div id="flat-chat"></div>
 
-//Define the FormExtension for the Voiceflow widget
+<script>
+/* =====================
+   1) FOLLOW-UP FORM EXTENSION
+   ===================== */
 const FollowUpFormExtension = {
   name: 'FollowUpForm',
   type: 'response',
   match: ({ trace }) =>
     trace.type === 'Custom_Form_FollowUp' ||
-    trace.payload.name === 'Custom_Form_FollowUp',
-  render: ({ trace, element }) => {
+    (trace.payload && trace.payload.name === 'Custom_Form_FollowUp'),
+  render: ({ element }) => {
     const formContainer = document.createElement('form');
     formContainer.innerHTML = `
       <style>
@@ -77,7 +69,7 @@ const FollowUpFormExtension = {
       <input type="submit" class="submit" value="Submit">
     `;
 
-    formContainer.addEventListener('submit', function (event) {
+    formContainer.addEventListener('submit', (event) => {
       event.preventDefault();
       const name = formContainer.querySelector('.name').value;
       const phone = formContainer.querySelector('.phone').value;
@@ -94,16 +86,16 @@ const FollowUpFormExtension = {
   },
 };
 
-// =====================================================
-     // 2) REQUEST SAMPLES FORM EXTENSION
-// ===================================================== 
+/* =====================
+   2) REQUEST SAMPLES FORM EXTENSION
+   ===================== */
 const SamplesFormExtension = {
   name: 'SamplesForm',
   type: 'response',
   match: ({ trace }) =>
     trace.type === 'Custom_Form_RequestSamples' ||
-    trace.payload.name === 'Custom_Form_RequestSamples',
-  render: ({ trace, element }) => {
+    (trace.payload && trace.payload.name === 'Custom_Form_RequestSamples'),
+  render: ({ element }) => {
     const formContainer = document.createElement('form');
     formContainer.innerHTML = `
       <style>
@@ -143,7 +135,7 @@ const SamplesFormExtension = {
       <input type="submit" class="submit" value="Submit">
     `;
 
-    formContainer.addEventListener('submit', function (event) {
+    formContainer.addEventListener('submit', (event) => {
       event.preventDefault();
       const name = formContainer.querySelector('.name').value;
       const postal = formContainer.querySelector('.postal').value;
@@ -159,17 +151,15 @@ const SamplesFormExtension = {
   },
 };
 
-//=====================================================
-    // 4) LOAD THE WIDGET WITH EXTENSIONS
-//=====================================================
-
-//Embedded chat widget
+/* =====================
+   3) LOAD WIDGET WITH EXTENSIONS (EMBEDDED)
+   ===================== */
 (function (d, t) {
-  var v = d.createElement(t),
-    s = d.getElementsByTagName(t)[0];
+  const v = d.createElement(t);
+  const s = d.getElementsByTagName(t)[0];
   v.onload = function () {
     window.voiceflow.chat.load({
-      verify: { projectID: aiChatbot }, 
+      verify: { projectID: '6760adeb289aab95d4721254' }, // Use your actual ProjectID
       url: 'https://general-runtime.voiceflow.com',
       versionID: 'production',
       render: {
@@ -178,10 +168,8 @@ const SamplesFormExtension = {
       },
       autostart: true,
       assistant: {
-        extensions: [
-          FollowUpFormExtension,
-          SamplesFormExtension
-        ]
+        // Register your extensions here:
+        extensions: [FollowUpFormExtension, SamplesFormExtension],
       },
     });
   };
@@ -189,29 +177,7 @@ const SamplesFormExtension = {
   v.type = 'text/javascript';
   s.parentNode.insertBefore(v, s);
 })(document, 'script');
+</script>
 
-//chat bubble
-(function (d, t) {
-  var v = d.createElement(t),
-    s = d.getElementsByTagName(t)[0];
-  v.onload = function () {
-    window.voiceflow.chat.load({
-      verify: { projectID: aiChatbot },
-      url: 'https://general-runtime.voiceflow.com',
-      versionID: 'production',
-      assistant: {
-         extensions: [
-            FollowUpFormExtension,
-            SamplesFormExtension
-          ] 
-        },
-    });
-  };
-  v.src = 'https://cdn.voiceflow.com/widget/bundle.mjs';
-  v.type = 'text/javascript';
-  s.parentNode.insertBefore(v, s);
-})(document, 'script');
-  
-  </script>
 </body>
 </html>
