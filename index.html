@@ -5,14 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Embedded Chat Widget</title>
 </head>
-<body data-region="US">
-<!-- 
-  Change data-region to "UK", "GB", or "CA" if needed 
-  (the code below uses it to decide which projectID to load).
-  Default is "US".
--->
 
-<!-- This is the container where the flat (embedded) chat will appear -->
 <div id="flat-chat"></div>
 
 <script>
@@ -159,15 +152,6 @@ const SamplesFormExtension = {
 // DETERMINE PROJECT ID
 // --------------------
 const body = document.querySelector('body');
-var aiChatbot = "";
-if (body.dataset.region.toLowerCase() == "uk" || body.dataset.region.toLowerCase() == "gb") {
-  aiChatbot = '675cb8a7bdfd5f757ce98441';
-} else if (body.dataset.region.toLowerCase() == "ca"){
-  aiChatbot = '6760adeb289aab95d4721254';
-} else {
-  // default US
-  aiChatbot = '6760adeb289aab95d4721254';
-}
 
 // --------------------
 // LOAD THE EMBED WIDGET
@@ -177,7 +161,7 @@ if (body.dataset.region.toLowerCase() == "uk" || body.dataset.region.toLowerCase
       s = d.getElementsByTagName(t)[0];
   v.onload = function () {
     window.voiceflow.chat.load({
-      verify: { projectID: aiChatbot },
+      verify: { projectID: 6760adeb289aab95d4721254 },
       url: 'https://general-runtime.voiceflow.com',
       versionID: 'production',
       render: {
