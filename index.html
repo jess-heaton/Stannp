@@ -1,36 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Form Extension</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Embedded Chat Widget</title>
 </head>
-<body>
+<body data-region="US">
+<!-- 
+  Change data-region to "UK", "GB", or "CA" if needed 
+  (the code below uses it to decide which projectID to load).
+  Default is "US".
+-->
 
-  <!-- Somewhere in your HTML, add a target container for the embedded chat -->
-<div id="flat-chat"></div>
-<!-- 1) Target container for the embedded chat -->
+<!-- This is the container where the flat (embedded) chat will appear -->
 <div id="flat-chat"></div>
 
 <script>
-// grab projectID based on region
-const body = document.querySelector('body');
-var aiChatbot = "";
-if (body.dataset.region.toLowerCase() == "uk" || body.dataset.region.toLowerCase() == "gb"){  
-  aiChatbot = '675cb8a7bdfd5f757ce98441';		
-} else if (body.dataset.region.toLowerCase() == "ca" ){
-  aiChatbot = '6760adeb289aab95d4721254';
-} else { // US
-  aiChatbot = '6760adeb289aab95d4721254';
-}
-
-//Define the FormExtension for the Voiceflow widget
+// --------------------
+// FORM EXTENSIONS
+// --------------------
+/** Follow Up Form Extension **/
 const FollowUpFormExtension = {
   name: 'FollowUpForm',
   type: 'response',
   match: ({ trace }) =>
     trace.type === 'Custom_Form_FollowUp' ||
-    trace.payload.name === 'Custom_Form_FollowUp',
+    trace.payload?.name === 'Custom_Form_FollowUp',
   render: ({ trace, element }) => {
     const formContainer = document.createElement('form');
     formContainer.innerHTML = `
@@ -97,15 +92,13 @@ const FollowUpFormExtension = {
   },
 };
 
-// =====================================================
-     // 2) REQUEST SAMPLES FORM EXTENSION
-// ===================================================== 
+/** Samples Form Extension **/
 const SamplesFormExtension = {
   name: 'SamplesForm',
   type: 'response',
   match: ({ trace }) =>
     trace.type === 'Custom_Form_RequestSamples' ||
-    trace.payload.name === 'Custom_Form_RequestSamples',
+    trace.payload?.name === 'Custom_Form_RequestSamples',
   render: ({ trace, element }) => {
     const formContainer = document.createElement('form');
     formContainer.innerHTML = `
@@ -162,17 +155,29 @@ const SamplesFormExtension = {
   },
 };
 
-//=====================================================
-    // 4) LOAD THE WIDGET WITH EXTENSIONS
-//=====================================================
+// --------------------
+// DETERMINE PROJECT ID
+// --------------------
+const body = document.querySelector('body');
+var aiChatbot = "";
+if (body.dataset.region.toLowerCase() == "uk" || body.dataset.region.toLowerCase() == "gb") {
+  aiChatbot = '675cb8a7bdfd5f757ce98441';
+} else if (body.dataset.region.toLowerCase() == "ca"){
+  aiChatbot = '6760adeb289aab95d4721254';
+} else {
+  // default US
+  aiChatbot = '6760adeb289aab95d4721254';
+}
 
-//Embedded chat widget
+// --------------------
+// LOAD THE EMBED WIDGET
+// --------------------
 (function (d, t) {
   var v = d.createElement(t),
-    s = d.getElementsByTagName(t)[0];
+      s = d.getElementsByTagName(t)[0];
   v.onload = function () {
     window.voiceflow.chat.load({
-      verify: { projectID: aiChatbot }, 
+      verify: { projectID: aiChatbot },
       url: 'https://general-runtime.voiceflow.com',
       versionID: 'production',
       render: {
@@ -184,7 +189,7 @@ const SamplesFormExtension = {
         extensions: [
           FollowUpFormExtension,
           SamplesFormExtension
-        ]
+        ],
       },
     });
   };
@@ -192,29 +197,6 @@ const SamplesFormExtension = {
   v.type = 'text/javascript';
   s.parentNode.insertBefore(v, s);
 })(document, 'script');
-
-//chat bubble
-(function (d, t) {
-  var v = d.createElement(t),
-    s = d.getElementsByTagName(t)[0];
-  v.onload = function () {
-    window.voiceflow.chat.load({
-      verify: { projectID: aiChatbot },
-      url: 'https://general-runtime.voiceflow.com',
-      versionID: 'production',
-      assistant: {
-         extensions: [
-            FollowUpFormExtension,
-            SamplesFormExtension
-          ] 
-        },
-    });
-  };
-  v.src = 'https://cdn.voiceflow.com/widget/bundle.mjs';
-  v.type = 'text/javascript';
-  s.parentNode.insertBefore(v, s);
-})(document, 'script');
-
 </script>
 
 </body>
