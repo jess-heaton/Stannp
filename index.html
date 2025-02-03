@@ -3,34 +3,40 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Embedded Chat Widget</title>
+  <title>Two Voiceflow Bots as Modules</title>
+  <style>
+    #chat1, #chat2 {
+      border: 1px solid #ccc;
+      width: 300px;
+      height: 400px;
+      margin: 10px;
+      display: inline-block;
+    }
+  </style>
 </head>
-  <body>
-    <script type="text/javascript">
-  (function(d, t) {
-      var v = d.createElement(t), s = d.getElementsByTagName(t)[0];
-      v.onload = function() {
-        window.voiceflow.chat.load({
-          verify: { projectID: '6760adeb289aab95d4721254' },
-          url: 'https://general-runtime.voiceflow.com',
-          versionID: 'production'
-        });
-      }
-      v.src = "https://cdn.voiceflow.com/widget-next/bundle.mjs"; v.type = "text/javascript"; s.parentNode.insertBefore(v, s);
-  })(document, 'script');
-</script>
-<script type="text/javascript">
-  (function(d, t) {
-      var v = d.createElement(t), s = d.getElementsByTagName(t)[0];
-      v.onload = function() {
-        window.voiceflow.chat.load({
-          verify: { projectID: '67a0aedca6608571e4b6eaed' },
-          url: 'https://general-runtime.voiceflow.com',
-          versionID: 'production'
-        });
-      }
-      v.src = "https://cdn.voiceflow.com/widget-next/bundle.mjs"; v.type = "text/javascript"; s.parentNode.insertBefore(v, s);
-  })(document, 'script');
-</script>
-  </body>
+<body>
+  <div id="chat1"></div>
+  <div id="chat2"></div>
+
+  <script type="module">
+    // Import the Voiceflow widget module if available.
+    // This assumes that the module export is available, which depends on Voiceflow's documentation.
+    import * as voiceflow from 'https://cdn.voiceflow.com/widget-next/bundle.mjs';
+    
+    // Try initializing two separate instances with container parameters.
+    voiceflow.chat.load({
+      container: '#chat1',
+      verify: { projectID: '6760adeb289aab95d4721254' },
+      url: 'https://general-runtime.voiceflow.com',
+      versionID: 'production'
+    });
+    
+    voiceflow.chat.load({
+      container: '#chat2',
+      verify: { projectID: '67a0aedca6608571e4b6eaed' },
+      url: 'https://general-runtime.voiceflow.com',
+      versionID: 'production'
+    });
+  </script>
+</body>
 </html>
