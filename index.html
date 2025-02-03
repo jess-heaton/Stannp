@@ -5,19 +5,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Embedded Chat Widget</title>
 </head>
-  <body>
-    <script type="text/javascript">
-  (function(d, t) {
-      var v = d.createElement(t), s = d.getElementsByTagName(t)[0];
-      v.onload = function() {
-        window.voiceflow.chat.load({
-          verify: { projectID: '6760adeb289aab95d4721254' },
-          url: 'https://general-runtime.voiceflow.com',
-          versionID: 'production'
-        });
-      }
-      v.src = "https://cdn.voiceflow.com/widget-next/bundle.mjs"; v.type = "text/javascript"; s.parentNode.insertBefore(v, s);
-  })(document, 'script');
-</script>
-  </body>
+<body>
+  <!-- Add a div container where the chat widget should be embedded -->
+  <div id="voiceflow-chat" style="width: 100%; height: 600px;"></div>
+
+  <script type="text/javascript">
+    (function(d, t) {
+        var v = d.createElement(t), s = d.getElementsByTagName(t)[0];
+        v.onload = function() {
+            window.voiceflow.chat.load({
+                verify: { projectID: '6760adeb289aab95d4721254' },
+                url: 'https://general-runtime.voiceflow.com',
+                versionID: 'production',
+                render: { mode: 'embedded', container: document.getElementById('voiceflow-chat') }
+            });
+        }
+        v.src = "https://cdn.voiceflow.com/widget-next/bundle.mjs";
+        v.type = "text/javascript";
+        s.parentNode.insertBefore(v, s);
+    })(document, 'script');
+  </script>
+</body>
 </html>
