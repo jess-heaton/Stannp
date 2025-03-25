@@ -2,225 +2,149 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Boardwalk – Dream Home Search (Magical)</title>
-
-  <!-- Boardwalk-like fonts: Playfair Display + Open Sans -->
+  <title>Find Your Dream Home | Boardwalk AI Search</title>
+  <!-- Fonts -->
   <link
-    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Open+Sans:wght@300;400;600&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Open+Sans:wght@300;400&display=swap"
     rel="stylesheet"
-  />
-
+  >
   <style>
-    /* Reset */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
     body {
+      margin: 0;
       font-family: 'Open Sans', sans-serif;
-      background-color: #fff;
-      color: #333;
-      line-height: 1.4;
+      background-color: #ffffff;
+      color: #2b2b2b;
     }
 
-    /* Header (mimicking Boardwalk's style) */
     header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 1.5rem 2rem;
-      border-bottom: 1px solid #ccc;
+      padding: 2rem 1rem;
+      text-align: center;
+      border-bottom: 1px solid #ddd;
     }
+
     header h1 {
       font-family: 'Playfair Display', serif;
-      font-size: 1.8rem;
-      font-weight: 700;
-      letter-spacing: -0.5px;
-    }
-    nav a {
-      margin-left: 1.5rem;
-      text-decoration: none;
-      font-weight: 600;
-      color: #333;
-    }
-    nav a:hover {
-      text-decoration: underline;
+      font-size: 2.5rem;
+      margin: 0;
     }
 
-    /* Hero with minimal style, pulling from Boardwalk aesthetic */
-    .hero {
-      text-align: center;
+    header p {
+      font-size: 1.1rem;
+      color: #555;
+      margin-top: 0.5rem;
+    }
+
+    /* Two-column section for the chatbot */
+    .chat-section {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-start;
       padding: 4rem 2rem;
-      max-width: 80rem;
+      background-color: #fff;
+      /* If you want a subtle border-top or bottom, uncomment:
+      border-top: 1px solid #ddd;
+      */
+    }
+
+    .left-content {
+      flex: 1 1 300px;
+      max-width: 600px;
+      margin-right: 2rem;
+    }
+
+    .left-content h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      margin: 0 0 1rem;
+    }
+
+    .left-content p {
+      font-size: 1rem;
+      color: #555;
+      line-height: 1.6;
+      margin-bottom: 1.2rem;
+    }
+
+    /* Chatbot container on the right */
+    .right-content {
+      flex: 1 1 300px;
+      max-width: 600px;
+      min-width: 300px;
+    }
+
+    #my-chatbot {
+      width: 100%;
+      height: 600px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.07);
+      border-radius: 0 !important; /* Force square corners */
+      overflow: hidden;
       margin: 0 auto;
     }
-    .hero .subheading {
-      font-size: 0.9rem;
-      letter-spacing: 1px;
-      font-weight: 600;
-      text-transform: uppercase;
-      color: #888;
-      margin-bottom: 0.75rem;
-    }
-    .hero h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: 2.2rem;
-      font-weight: 700;
-      margin-bottom: 1rem;
-      line-height: 1.3;
-    }
-    .hero p {
-      max-width: 44rem;
-      margin: 0.5rem auto 2.5rem;
-      color: #555;
-      font-size: 1.05rem;
+
+    /* Attempt to override Voiceflow’s default round corners */
+    #my-chatbot iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      border-radius: 0 !important; /* Force square corners */
     }
 
-    /* 
-      "Truly magical" text link:
-        - Subtle glow pulse on the text 
-        - Rotating swirl behind it (conic gradient)
-        - Overall minimal but with a wow factor
-    */
-    .magical-link {
-      position: relative;
-      display: inline-block;
-      color: #c8a13f; /* A soft gold that reads well on white */
-      font-family: 'Playfair Display', serif;
-      font-size: 1.2rem;
-      font-weight: 600;
-      text-decoration: none;
-      padding: 0.75rem 1.5rem;
-      margin-top: 1rem;
-      cursor: pointer;
-      /* Subtle text glow that pulses */
-      animation: glowPulse 2.5s ease-in-out infinite;
-    }
-    /* The swirling gold border behind the text */
-    .magical-link::before {
-      content: "";
-      position: absolute;
-      top: -2px; 
-      bottom: -2px; 
-      left: -2px; 
-      right: -2px;
-      border-radius: 6px;       /* Slight rounding for a “liquid gold” look */
-      z-index: -1;
-      background: conic-gradient(
-        from 0deg,
-        rgba(212,175,55, 0.3) 0%,
-        rgba(245,233,203, 0.6) 50%,
-        rgba(212,175,55, 0.3) 100%
-      );
-      animation: swirl 3s linear infinite;
-    }
-    /* A second layer to keep the center white (or page color) 
-       "border" effect: use background-clip trick 
-    */
-    .magical-link::after {
-      content: "";
-      position: absolute;
-      top: 0; 
-      bottom: 0; 
-      left: 0; 
-      right: 0;
-      border-radius: 4px; 
-      background: #fff;    /* Matches body color */
-      z-index: -1;
-      margin: 2px;         /* offset so the swirl acts like a border */
-    }
-
-    /* Swirling animation of the conic gradient behind the text */
-    @keyframes swirl {
-      0% {
-        transform: rotate(0deg);
-      }
-      100% {
-        transform: rotate(360deg);
-      }
-    }
-
-    /* Gentle glow pulse on the text color itself */
-    @keyframes glowPulse {
-      0%, 100% {
-        text-shadow: 
-          0 0 3px rgba(200,161,63, 0.4),
-          0 0 10px rgba(200,161,63, 0.2);
-      }
-      50% {
-        text-shadow: 
-          0 0 6px rgba(200,161,63, 0.7),
-          0 0 12px rgba(200,161,63, 0.4);
-      }
-    }
-
-    /* Footer */
     footer {
       text-align: center;
-      padding: 1.5rem 2rem;
+      padding: 2rem 1rem;
       font-size: 0.9rem;
-      color: #777;
+      color: #888;
       border-top: 1px solid #eee;
-      margin-top: 3rem;
     }
   </style>
 </head>
 <body>
 
-  <!-- Header -->
   <header>
-    <h1>Boardwalk</h1>
-    <nav>
-      <a href="#">Buy</a>
-      <a href="#">Sell</a>
-    </nav>
+    <h1>Find Your Dream Home</h1>
+    <p>Let our AI assistant match you with the perfect Bristol property in seconds.</p>
   </header>
 
-  <!-- Hero Section -->
-  <section class="hero">
-    <div class="subheading">INDEPENDENT BRISTOL ESTATE AGENT</div>
-    <h2>Lifestyle-focused estate agency selling Bristol homes, better.</h2>
-    <p>
-      We take as much care marketing your home as you have creating it. 
-      Our magazine-quality photography, passion for interiors, and expert 
-      knowledge of our City mean our homes get the best results.
-    </p>
+  <section class="chat-section">
+    <!-- LEFT COLUMN: Text/Heading -->
+    <div class="left-content">
+      <h2>Search for your dream home</h2>
+      <p>
+        With our AI-powered tool, finding the perfect property in Bristol has never been easier. 
+        Simply describe what you're looking for, and we’ll show you the best matches.
+      </p>
+      <p>
+        Try searching for "3-bed homes in Clifton" or "pet-friendly flats under £1,200/mo".
+      </p>
+    </div>
 
-    <!-- "Truly magical" link with swirling gold behind it -->
-    <a class="magical-link" id="openAiChat">
-      Search for your dream home
-    </a>
+    <!-- RIGHT COLUMN: Chatbot -->
+    <div class="right-content">
+      <div id="my-chatbot"></div>
+    </div>
   </section>
 
-  <!-- Footer -->
   <footer>
     © 2025 Boardwalk Property Co. | Powered by AI from Adanac
   </footer>
 
-  <!-- Voiceflow Script: overlay mode so we can open on link click -->
+  <!-- Voiceflow Embed -->
   <script type="text/javascript">
     (function(d, t) {
       var v = d.createElement(t), s = d.getElementsByTagName(t)[0];
       v.onload = function() {
-        // 1) Load the overlay chat widget
         window.voiceflow.chat.load({
-          verify: { projectID: '67d02708de75fd702811fa66' },
+          verify: { projectID: '67e27f536b6eed36d51eff79' },
           url: 'https://general-runtime.voiceflow.com',
           versionID: 'production',
           voice: {
             url: "https://runtime-api.voiceflow.com"
           },
           render: {
-            mode: 'overlay'  // so we can open/close it programmatically
+            mode: 'embedded',
+            target: document.getElementById('my-chatbot')
           }
-        });
-
-        // 2) Click on magical link -> open overlay
-        const openBtn = document.getElementById('openAiChat');
-        openBtn.addEventListener('click', function(e) {
-          e.preventDefault();
-          window.voiceflow.chat.open();
         });
       };
       v.src = "https://cdn.voiceflow.com/widget-next/bundle.mjs";
