@@ -1,23 +1,115 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Embedded Chat Widget</title>
+  <meta charset="UTF-8">
+  <title>Find Your Dream Home | Boardwalk AI Search</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Open+Sans:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Open Sans', sans-serif;
+      background-color: #fefefe;
+      color: #2b2b2b;
+    }
+
+    header {
+      padding: 2rem 1rem;
+      text-align: center;
+      border-bottom: 1px solid #ddd;
+    }
+
+    header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem;
+      margin: 0;
+    }
+
+    header p {
+      font-size: 1.1rem;
+      color: #555;
+      margin-top: 0.5rem;
+    }
+
+    .chat-section {
+      padding: 4rem 1rem;
+      background-color: #fff6f6;
+      text-align: center;
+    }
+
+    .chat-section h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .chat-section p {
+      font-size: 1rem;
+      color: #555;
+      margin-bottom: 2rem;
+    }
+
+    #my-chatbot {
+      max-width: 600px;
+      height: 600px;
+      margin: 0 auto;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.07);
+      border-radius: 0 !important;
+      overflow: hidden;
+    }
+
+    #my-chatbot iframe {
+      border-radius: 0 !important;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem 1rem;
+      font-size: 0.9rem;
+      color: #888;
+      border-top: 1px solid #eee;
+    }
+  </style>
 </head>
 <body>
+
+  <header>
+    <h1>Find Your Dream Home</h1>
+    <p>Let our AI assistant match you with the perfect Bristol property in seconds.</p>
+  </header>
+
+  <section class="chat-section">
+    <h2>Start Your Search</h2>
+    <p>Ask anything – from "3-bed homes in Clifton" to "pet-friendly flats under £1,200/mo".</p>
+
+    <div id="my-chatbot"></div>
+  </section>
+
+  <footer>
+    © 2025 Boardwalk Property Co. | Powered by AI from Adanac
+  </footer>
+
   <script type="text/javascript">
-  (function(d, t) {
+    (function(d, t) {
       var v = d.createElement(t), s = d.getElementsByTagName(t)[0];
       v.onload = function() {
         window.voiceflow.chat.load({
-          verify: { projectID: '6760adeb289aab95d4721254' },
+          verify: { projectID: '67d02708de75fd702811fa66' },
           url: 'https://general-runtime.voiceflow.com',
-          versionID: 'production'
+          versionID: 'production',
+          voice: {
+            url: "https://runtime-api.voiceflow.com"
+          },
+          render: {
+            mode: 'embedded',
+            target: document.getElementById('my-chatbot')
+          }
         });
-      }
-      v.src = "https://cdn.voiceflow.com/widget-next/bundle.mjs"; v.type = "text/javascript"; s.parentNode.insertBefore(v, s);
-  })(document, 'script');
-</script>
+      };
+      v.src = "https://cdn.voiceflow.com/widget-next/bundle.mjs";
+      v.type = "text/javascript";
+      s.parentNode.insertBefore(v, s);
+    })(document, 'script');
+  </script>
+
 </body>
 </html>
