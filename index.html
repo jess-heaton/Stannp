@@ -9,121 +9,124 @@
     rel="stylesheet"
   >
   <style>
-    body {
+    /* Global resets & typography */
+    * {
+      box-sizing: border-box;
       margin: 0;
+      padding: 0;
+    }
+    body {
       font-family: 'Open Sans', sans-serif;
-      background-color: #ffffff;
+      background-color: #f3f0ee;
+      color: #2b2b2b;
+      line-height: 1.6;
+    }
+    h1, h2 {
+      font-family: 'Playfair Display', serif;
+      margin-bottom: 0.5rem;
       color: #2b2b2b;
     }
 
+    /* Container for overall content to limit width */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* Header */
     header {
-      padding: 2rem 1rem;
       text-align: center;
-      border-bottom: 1px solid #ddd;
+      padding: 3rem 0 2rem;
     }
-
-    header h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: 2.5rem;
-      margin: 0;
-    }
-
     header p {
       font-size: 1.1rem;
       color: #555;
-      margin-top: 0.5rem;
+      margin-top: 0.75rem;
     }
 
-    /* Two-column section for the chatbot */
+    /* Chat section layout */
     .chat-section {
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
       align-items: flex-start;
-      padding: 4rem 2rem;
-      background-color: #fff;
-      /* If you want a subtle border-top or bottom, uncomment:
-      border-top: 1px solid #ddd;
-      */
+      padding: 3rem 0;
     }
 
+    /* Left column: Intro text */
     .left-content {
-      flex: 1 1 300px;
-      max-width: 600px;
-      margin-right: 2rem;
+      flex: 0 0 55%;
+      max-width: 55%;
+      margin-bottom: 2rem;
+      padding-right: 2rem;
     }
-
     .left-content h2 {
-      font-family: 'Playfair Display', serif;
       font-size: 2rem;
-      margin: 0 0 1rem;
+      margin-bottom: 1rem;
     }
-
     .left-content p {
       font-size: 1rem;
       color: #555;
-      line-height: 1.6;
       margin-bottom: 1.2rem;
     }
 
-    /* Chatbot container on the right */
+    /* Right column: Chatbot container */
     .right-content {
-      flex: 1 1 300px;
-      max-width: 600px;
+      flex: 0 0 40%;
+      max-width: 200%;
       min-width: 300px;
     }
-
     #my-chatbot {
-      width: 100%;
+      width: 630px;
       height: 600px;
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.07);
-      border-radius: 0 !important; /* Force square corners */
+      border-radius: 0;
       overflow: hidden;
-      margin: 0 auto;
     }
-
-    /* Attempt to override Voiceflow’s default round corners */
     #my-chatbot iframe {
       width: 100%;
       height: 100%;
       border: none;
-      border-radius: 0 !important; /* Force square corners */
+      border-radius: 0;
     }
 
+    /* Footer */
     footer {
       text-align: center;
       padding: 2rem 1rem;
       font-size: 0.9rem;
       color: #888;
-      border-top: 1px solid #eee;
     }
   </style>
 </head>
 <body>
 
-  <header>
-    <h1>Find Your Dream Home</h1>
-    <p>Let our AI assistant match you with the perfect Bristol property in seconds.</p>
-  </header>
+  <div class="container">
+    <header>
+      <h1>Find Your Dream Home</h1>
+      <p>Let our AI assistant match you with the perfect Bristol property in seconds.</p>
+    </header>
 
-  <section class="chat-section">
-    <!-- LEFT COLUMN: Text/Heading -->
-    <div class="left-content">
-      <h2>Search for your dream home</h2>
-      <p>
-        With our AI-powered tool, finding the perfect property in Bristol has never been easier. 
-        Simply describe what you're looking for, and we’ll show you the best matches.
-      </p>
-      <p>
-        Try searching for "3-bed homes in Clifton" or "pet-friendly flats under £1,200/mo".
-      </p>
-    </div>
+    <section class="chat-section">
+      <!-- LEFT COLUMN: Text/Heading -->
+      <div class="left-content">
+        <h2>Search for your dream home</h2>
+        <p>
+          With our AI-powered tool, finding the perfect property in Bristol has never been easier.
+          Simply describe what you're looking for, and we’ll show you the best matches.
+        </p>
+        <p>
+          Try searching for "3-bed homes in Clifton" or "pet-friendly flats under £1,200/mo".
+        </p>
+      </div>
 
-    <!-- RIGHT COLUMN: Chatbot -->
-    <div class="right-content">
-      <div id="my-chatbot"></div>
-    </div>
-  </section>
+      <!-- RIGHT COLUMN: Chatbot -->
+      <div class="right-content">
+        <div id="my-chatbot"></div>
+      </div>
+    </section>
+  </div>
 
   <footer>
     © 2025 Boardwalk Property Co. | Powered by AI from Adanac
@@ -152,6 +155,5 @@
       s.parentNode.insertBefore(v, s);
     })(document, 'script');
   </script>
-
 </body>
 </html>
