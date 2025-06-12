@@ -1,616 +1,493 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Find Your Dream Home | Boardwalk AI Search</title>
-  <!-- Fonts -->
-  <link
-    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Open+Sans:wght@300;400&display=swap"
-    rel="stylesheet"
-  >
-  <style>
-    /* Global resets & typography */
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-    body {
-      font-family: 'Open Sans', sans-serif;
-      background-color: #f3f0ee;
-      color: #2b2b2b;
-      line-height: 1.6;
-    }
-    h1, h2 {
-      font-family: 'Playfair Display', serif;
-      margin-bottom: 0.5rem;
-      color: #2b2b2b;
-    }
-
-    /* Container for overall content to limit width */
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 2rem;
-    }
-
-    /* Header */
-    header {
-      text-align: center;
-      padding: 3rem 0 2rem;
-    }
-    header p {
-      font-size: 1.1rem;
-      color: #555;
-      margin-top: 0.75rem;
-    }
-
-    /* Chat section layout */
-    .chat-section {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      align-items: flex-start;
-      padding: 3rem 0;
-    }
-
-    /* Left column: Intro text */
-    .left-content {
-      flex: 0 0 55%;
-      max-width: 55%;
-      margin-bottom: 2rem;
-      padding-right: 2rem;
-    }
-    .left-content h2 {
-      font-size: 2rem;
-      margin-bottom: 1rem;
-    }
-    .left-content p {
-      font-size: 1rem;
-      color: #555;
-      margin-bottom: 1.2rem;
-    }
-
-    /* Right column: Chatbot container */
-    .right-content {
-      flex: 0 0 40%;
-      max-width: 200%;
-      min-width: 300px;
-    }
-    #my-chatbot {
-      width: 630px;
-      height: 600px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.07);
-      border-radius: 0;
-      overflow: hidden;
-    }
-    #my-chatbot iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-      border-radius: 0;
-    }
-
-    /* Footer */
-    footer {
-      text-align: center;
-      padding: 2rem 1rem;
-      font-size: 0.9rem;
-      color: #888;
-    }
-  </style>
-</head>
-<body>
-
-  <div class="container">
-    <header>
-      <h1>Find Your Dream Home</h1>
-      <p>Let our AI assistant match you with the perfect Bristol property in seconds.</p>
-    </header>
-
-    <section class="chat-section">
-      <!-- LEFT COLUMN: Text/Heading -->
-      <div class="left-content">
-        <h2>Search for your dream home</h2>
-        <p>
-          With our AI-powered tool, finding the perfect property in Bristol has never been easier.
-          Simply describe what you're looking for, and we’ll show you the best matches.
-        </p>
-        <p>
-          Try searching for "3-bed homes in Clifton" or "pet-friendly flats under £1,200/mo".
-        </p>
-      </div>
-
-  </div>
-
-  <footer>
-    © 2025 Boardwalk Property Co. | Powered by AI from Adanac
-  </footer>
-
-<script type="text/javascript">
-(function() {
-    // Check if device is mobile
-    function isMobile() {
-        return window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    }
-
-    // Inject CSS styles
-    const styles = `
-        /* Hide the default Voiceflow widget initially */
-        #voiceflow-chat { display: none !important; }
-
-        /* Custom animated button - refined design */
-        .avant-garde-chat-button {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 65px;
-            height: 65px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #c41e3a 0%, #dc143c 50%, #b22222 100%);
-            background-size: 200% 200%;
-            animation: avant-garde-redGradientShift 6s ease infinite, avant-garde-pulse 3s ease-in-out infinite;
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            cursor: pointer;
-            box-shadow: 0 8px 32px rgba(196, 30, 58, 0.3), 
-                        0 4px 16px rgba(220, 20, 60, 0.2),
-                        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VAPI Voice Assistant Demo</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            z-index: 999999;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            overflow: visible;
-            backdrop-filter: blur(10px);
         }
 
-        /* Shield logo with refined styling - bigger */
-        .avant-garde-shield {
-            width: 42px;
-            height: 42px;
-            background-image: url('https://raw.githubusercontent.com/jess-heaton/avg/main/avant-garde-logo.png');
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
-            filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.2)) brightness(1.1);
-            animation: avant-garde-shieldPulse 4s ease-in-out infinite;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        /* Shield stabilizes on hover */
-        .avant-garde-chat-button:hover .avant-garde-shield {
-            animation: none;
-            transform: scale(1.1);
-        }
-
-        /* Hover effects - refined and smooth */
-        .avant-garde-chat-button:hover {
-            transform: translateY(-2px) scale(1.05);
-            box-shadow: 0 12px 40px rgba(196, 30, 58, 0.4), 
-                        0 6px 20px rgba(220, 20, 60, 0.3),
-                        inset 0 1px 0 rgba(255, 255, 255, 0.2);
-        }
-
-        /* Stop all animations when widget is open */
-        .avant-garde-chat-button.widget-open {
-            animation: none !important;
-        }
-
-        .avant-garde-chat-button.widget-open .avant-garde-shield {
-            animation: none !important;
-            transform: scale(1.1);
-        }
-
-        .avant-garde-chat-button.widget-open .avant-garde-pulse-ring {
-            animation: none !important;
-        }
-
-        /* Hide text when widget is open with smoother transition */
-        .avant-garde-chat-button.widget-open .avant-garde-book-now-text {
-            opacity: 0;
-            transform: translateX(15px);
-        }
-
-        /* Text label - tighter pill shape */
-        .avant-garde-book-now-text {
-            position: absolute;
-            right: 80px;
-            background: linear-gradient(135deg, #c41e3a 0%, #dc143c 100%);
-            color: white;
-            padding: 6px 14px;
+        .container {
+            background: white;
+            padding: 40px;
             border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 2.5em;
             font-weight: 600;
-            font-size: 13px;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            white-space: nowrap;
-            opacity: 1;
-            transform: translateX(0);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            pointer-events: none;
-            box-shadow: 0 4px 20px rgba(196, 30, 58, 0.25),
-                        0 2px 8px rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        p {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+
+        .controls {
             display: flex;
-            align-items: center;
-            gap: 6px;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
         }
 
-        /* Chat icon inside the text */
-        .avant-garde-book-now-text::before {
-            content: '';
-            width: 16px;
-            height: 16px;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z'/%3E%3C/svg%3E");
-            background-size: contain;
-            background-repeat: no-repeat;
-            flex-shrink: 0;
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            min-width: 120px;
         }
 
-        /* Text moves subtly when button is hovered */
-        .avant-garde-chat-button:hover .avant-garde-book-now-text {
-            transform: translateX(-3px);
+        .btn-start {
+            background: #4CAF50;
+            color: white;
         }
 
-        /* Refined pulse ring */
-        .avant-garde-pulse-ring {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            border: 1px solid rgba(196, 30, 58, 0.3);
-            animation: avant-garde-pulseRing 3s ease-out infinite;
+        .btn-start:hover:not(:disabled) {
+            background: #45a049;
+            transform: translateY(-2px);
         }
 
-        /* Ripple effect on click */
-        .avant-garde-ripple {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.6);
-            transform: scale(0);
-            animation: avant-garde-ripple 0.8s ease-out;
+        .btn-stop {
+            background: #f44336;
+            color: white;
         }
 
-        /* The chat widget container - responsive positioning - ONLY FOR DESKTOP */
-        .avant-garde-chat-widget-container {
-            position: fixed;
-            bottom: 120px;
-            right: 30px;
-            width: min(400px, calc(100vw - 60px));
-            height: min(650px, calc(100vh - 140px));
-            max-height: calc(100vh - 140px);
-            background: transparent;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(196, 30, 58, 0.3), 
-                        0 10px 30px rgba(196, 30, 58, 0.2),
-                        0 0 40px rgba(220, 20, 60, 0.15);
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(20px) scale(0.95);
-            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            z-index: 999998;
-            overflow: visible;
+        .btn-stop:hover:not(:disabled) {
+            background: #da190b;
+            transform: translateY(-2px);
         }
 
-        .avant-garde-chat-widget-container.open {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0) scale(1);
+        .btn-mute {
+            background: #ff9800;
+            color: white;
         }
 
-        /* Voiceflow embed container */
-        .avant-garde-chat-content {
-            height: 100%;
-            position: relative;
-            border-radius: 20px;
-            overflow: hidden;
+        .btn-mute:hover:not(:disabled) {
+            background: #e68900;
+            transform: translateY(-2px);
         }
 
-        /* Show original Voiceflow widget on mobile */
-        @media (max-width: 768px) {
-            /* Hide custom container on mobile */
-            .avant-garde-chat-widget-container {
-                display: none !important;
-            }
-            
-            /* Allow Voiceflow widget to show on mobile */
-            #voiceflow-chat {
-                display: block !important;
-            }
-            
-            .avant-garde-chat-button {
-                width: 60px;
-                height: 60px;
-                bottom: 20px;
-                right: 20px;
-            }
-            
-            .avant-garde-shield {
-                width: 30px;
-                height: 30px;
-            }
-
-            .avant-garde-book-now-text {
-                font-size: 12px;
-                padding: 6px 12px;
-                right: 70px;
-            }
+        .btn-mute.muted {
+            background: #607d8b;
         }
 
-        /* Animations */
-        @keyframes avant-garde-redGradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        .btn-mute.muted:hover:not(:disabled) {
+            background: #546e7a;
         }
 
-        @keyframes avant-garde-pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
+        .btn:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+            transform: none;
         }
 
-        @keyframes avant-garde-shieldPulse {
-            0%, 100% { 
-                transform: scale(1) rotate(0deg);
-                opacity: 0.9;
-            }
-            50% { 
-                transform: scale(1.15) rotate(5deg);
-                opacity: 1;
-            }
+        .status {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            font-weight: 600;
         }
 
-        @keyframes avant-garde-ripple {
-            to { 
-                transform: scale(4); 
-                opacity: 0; 
-            }
+        .status.idle {
+            background: #e3f2fd;
+            color: #1976d2;
         }
 
-        @keyframes avant-garde-pulseRing {
-            0% {
-                transform: scale(1);
-                opacity: 1;
-            }
-            100% {
-                transform: scale(1.5);
-                opacity: 0;
-            }
+        .status.active {
+            background: #e8f5e8;
+            color: #2e7d32;
         }
 
-        @keyframes avant-garde-attentionGrab {
-            0% { transform: scale(1) rotate(0deg); }
-            10% { transform: scale(1.3) rotate(-10deg); }
-            20% { transform: scale(1.3) rotate(10deg); }
-            30% { transform: scale(1.3) rotate(-10deg); }
-            40% { transform: scale(1) rotate(0deg); }
-            100% { transform: scale(1) rotate(0deg); }
+        .status.error {
+            background: #ffebee;
+            color: #c62828;
         }
 
-        .avant-garde-attention-grab {
-            animation: avant-garde-attentionGrab 1.5s ease-in-out !important;
+        .microphone-indicator {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s ease;
         }
 
-        /* Extra small screens */
-        @media (max-width: 480px) {
-            .avant-garde-chat-button {
-                width: 55px;
-                height: 55px;
-                bottom: 15px;
-                right: 15px;
-            }
-            
-            .avant-garde-shield {
-                width: 28px;
-                height: 28px;
-            }
+        .microphone-indicator.unmuted {
+            background: #e8f5e8;
+            color: #2e7d32;
         }
 
-        /* Large screens */
-        @media (min-width: 1200px) {
-            .avant-garde-chat-widget-container {
-                width: 420px;
-                height: 700px;
-            }
+        .microphone-indicator.muted {
+            background: #ffebee;
+            color: #c62828;
         }
-    `;
 
-    // Inject styles into head
-    const styleSheet = document.createElement('style');
-    styleSheet.textContent = styles;
-    document.head.appendChild(styleSheet);
+        .assistant-info {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            color: #555;
+        }
 
-    // Create HTML elements
-    function createElements() {
-        // Custom Animated Button
-        const button = document.createElement('button');
-        button.className = 'avant-garde-chat-button';
-        button.id = 'avantGardeChatBtn';
+        /* Hide the default VAPI button since we're using custom controls */
+        .vapi-btn {
+            display: none !important;
+        }
+
+        .permission-note {
+            background: #fff3e0;
+            color: #ef6c00;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            border-left: 4px solid #ff9800;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎤 VAPI Demo</h1>
+        <p>Click "Start Call" to begin talking with your AI assistant. Use the mute button to control your microphone during the conversation.</p>
         
-        const pulseRing = document.createElement('span');
-        pulseRing.className = 'avant-garde-pulse-ring';
+        <div class="permission-note" id="permissionNote" style="display: none;">
+            Please allow microphone access when prompted to use the voice assistant.
+        </div>
         
-        const shield = document.createElement('div');
-        shield.className = 'avant-garde-shield';
+        <div class="assistant-info">
+            <strong>Assistant ID:</strong> ad8fb8db-1cc3-4162-8ff1-d88d75a1f930
+        </div>
+
+        <div class="controls">
+            <button id="startBtn" class="btn btn-start">Start Call</button>
+            <button id="stopBtn" class="btn btn-stop" disabled>Stop Call</button>
+            <button id="muteBtn" class="btn btn-mute" disabled>Mute</button>
+        </div>
+
+        <div id="status" class="status idle">Ready to start</div>
+        <div id="micStatus" class="microphone-indicator unmuted" style="display: none;">🎤 Microphone: Unmuted</div>
+    </div>
+
+    <script>
+        // Global VAPI instance variable
+        let vapiInstance = null;
         
-        const bookNowText = document.createElement('span');
-        bookNowText.className = 'avant-garde-book-now-text';
-        bookNowText.textContent = 'Chat here now!';
+        // DOM elements
+        const startBtn = document.getElementById('startBtn');
+        const stopBtn = document.getElementById('stopBtn');
+        const muteBtn = document.getElementById('muteBtn');
+        const status = document.getElementById('status');
+        const micStatus = document.getElementById('micStatus');
+        const permissionNote = document.getElementById('permissionNote');
         
-        button.appendChild(pulseRing);
-        button.appendChild(shield);
-        button.appendChild(bookNowText);
-
-        // Only create custom chat container for desktop
-        if (!isMobile()) {
-            const chatContainer = document.createElement('div');
-            chatContainer.className = 'avant-garde-chat-widget-container';
-            chatContainer.id = 'avantGardeChatContainer';
-            
-            const chatContent = document.createElement('div');
-            chatContent.className = 'avant-garde-chat-content';
-            chatContent.id = 'avantGardeVoiceflowEmbed';
-            
-            chatContainer.appendChild(chatContent);
-            document.body.appendChild(chatContainer);
-        }
-
-        // Add button to body
-        document.body.appendChild(button);
-    }
-
-    // Initialize functionality
-    function initializeFunctionality() {
-        const customBtn = document.getElementById('avantGardeChatBtn');
-        const chatContainer = document.getElementById('avantGardeChatContainer');
-        let isOpen = false;
-
-        function toggleChat() {
-            if (isMobile()) {
-                // On mobile, simply trigger the Voiceflow widget to open
-                if (window.voiceflow && window.voiceflow.chat && window.voiceflow.chat.open) {
-                    window.voiceflow.chat.open();
+        // State tracking
+        let isCallActive = false;
+        let isMuted = false;
+        let isVapiLoaded = false;
+        let microphonePermissionGranted = false;
+        
+        // Check microphone permissions proactively
+        async function checkMicrophonePermission() {
+            try {
+                const permissionResult = await navigator.permissions.query({ name: 'microphone' });
+                microphonePermissionGranted = permissionResult.state === 'granted';
+                
+                if (permissionResult.state === 'prompt') {
+                    permissionNote.style.display = 'block';
                 } else {
-                    // If not loaded yet, try again after a short delay
-                    setTimeout(() => {
-                        if (window.voiceflow && window.voiceflow.chat && window.voiceflow.chat.open) {
-                            window.voiceflow.chat.open();
-                        }
-                    }, 500);
+                    permissionNote.style.display = 'none';
                 }
                 
-                // Add ripple effect to button
-                const ripple = document.createElement('span');
-                ripple.className = 'avant-garde-ripple';
-                customBtn.appendChild(ripple);
-                setTimeout(() => ripple.remove(), 800);
+                // Listen for permission changes
+                permissionResult.addEventListener('change', () => {
+                    microphonePermissionGranted = permissionResult.state === 'granted';
+                    if (permissionResult.state === 'granted') {
+                        permissionNote.style.display = 'none';
+                    }
+                });
                 
+                return microphonePermissionGranted;
+            } catch (error) {
+                console.log('Permission API not supported or error:', error);
+                return false;
+            }
+        }
+        
+        // Request microphone permission explicitly
+        async function requestMicrophonePermission() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                stream.getTracks().forEach(track => track.stop()); // Clean up immediately
+                microphonePermissionGranted = true;
+                permissionNote.style.display = 'none';
+                return true;
+            } catch (error) {
+                console.error('Microphone permission denied:', error);
+                microphonePermissionGranted = false;
+                return false;
+            }
+        }
+        
+        // Update UI based on call state
+        function updateUI() {
+            startBtn.disabled = isCallActive || !isVapiLoaded;
+            stopBtn.disabled = !isCallActive;
+            muteBtn.disabled = !isCallActive;
+            
+            if (isCallActive) {
+                micStatus.style.display = 'block';
+                updateMuteStatus();
             } else {
-                // On desktop, use custom widget
-                if (chatContainer) {
-                    isOpen = !isOpen;
-                    chatContainer.classList.toggle('open', isOpen);
-                    
-                    // Add/remove widget-open class to stop animations when open
-                    customBtn.classList.toggle('widget-open', isOpen);
-                    
-                    // Add ripple effect to button
-                    if (isOpen) {
-                        const ripple = document.createElement('span');
-                        ripple.className = 'avant-garde-ripple';
-                        customBtn.appendChild(ripple);
-                        setTimeout(() => ripple.remove(), 800);
-                    }
-                }
+                micStatus.style.display = 'none';
             }
         }
-
-        // Open/close chat when custom button is clicked
-        customBtn.addEventListener('click', toggleChat);
-
-        // Close when clicking outside (desktop only)
-        if (!isMobile()) {
-            document.addEventListener('click', function(e) {
-                if (chatContainer && isOpen && !chatContainer.contains(e.target) && !customBtn.contains(e.target)) {
-                    isOpen = false;
-                    chatContainer.classList.remove('open');
-                    customBtn.classList.remove('widget-open');
-                }
-            });
-
-            // Escape key to close (desktop only)
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape' && isOpen && chatContainer) {
-                    isOpen = false;
-                    chatContainer.classList.remove('open');
-                    customBtn.classList.remove('widget-open');
-                }
-            });
-        }
-
-        // Periodic attention animation
-        setInterval(() => {
-            if ((!isMobile() && !isOpen) || isMobile()) {
-                customBtn.classList.add('avant-garde-attention-grab');
+        
+        // Update mute button and indicator with proper synchronization
+        function updateMuteStatus() {
+            if (vapiInstance && isCallActive) {
+                // Use a small delay to ensure VAPI state is updated
                 setTimeout(() => {
-                    customBtn.classList.remove('avant-garde-attention-grab');
-                }, 1500);
+                    try {
+                        isMuted = vapiInstance.isMuted();
+                        muteBtn.textContent = isMuted ? 'Unmute' : 'Mute';
+                        muteBtn.classList.toggle('muted', isMuted);
+                        
+                        micStatus.textContent = isMuted ? '🔇 Microphone: Muted' : '🎤 Microphone: Unmuted';
+                        micStatus.classList.toggle('muted', isMuted);
+                        micStatus.classList.toggle('unmuted', !isMuted);
+                    } catch (error) {
+                        console.error('Error checking mute status:', error);
+                    }
+                }, 100);
             }
-        }, 15000);
-    }
-
-    // Load Voiceflow
-    function loadVoiceflow() {
-        if (isMobile()) {
-            // Use the exact same loading method as the original script for mobile
-            const script = document.createElement('script');
-            script.onload = function() {
-                window.voiceflow.chat.load({
-                    verify: { projectID: '681be03ddbdfd714348146a6' },
-                    url: 'https://general-runtime.voiceflow.com',
-                    versionID: 'production',
-                    voice: {
-                        url: "https://runtime-api.voiceflow.com"
-                    }
-                });
-            };
-            script.src = "https://cdn.voiceflow.com/widget-next/bundle.mjs";
-            script.type = "text/javascript";
-            const firstScript = document.getElementsByTagName('script')[0];
-            firstScript.parentNode.insertBefore(script, firstScript);
-        } else {
-            // Load embedded version for desktop
-            const script = document.createElement('script');
-            script.src = 'https://cdn.voiceflow.com/widget-next/bundle.mjs';
-            script.type = 'text/javascript';
-            script.onload = function() {
-                window.voiceflow.chat.load({
-                    verify: { projectID: '681be03ddbdfd714348146a6' },
-                    url: 'https://general-runtime.voiceflow.com',
-                    versionID: 'production',
-                    voice: {
-                        url: "https://runtime-api.voiceflow.com"
-                    },
-                    render: {
-                        mode: 'embedded',
-                        target: document.getElementById('avantGardeVoiceflowEmbed')
-                    }
-                });
-            };
-            document.head.appendChild(script);
         }
-    }
-
-    // Handle window resize to switch between mobile and desktop modes
-    function handleResize() {
-        // Reload the page if switching between mobile and desktop
-        // This ensures proper Voiceflow initialization
-        const wasMobile = window.innerWidth <= 768;
-        setTimeout(() => {
-            const isMobileNow = window.innerWidth <= 768;
-            if (wasMobile !== isMobileNow) {
-                location.reload();
+        
+        // Manual start call function
+        async function startCall() {
+            if (!vapiInstance) {
+                status.textContent = 'VAPI not initialized yet, please wait...';
+                status.className = 'status error';
+                return;
             }
-        }, 100);
-    }
+            
+            // Check and request microphone permission before starting call
+            if (!microphonePermissionGranted) {
+                const permissionGranted = await requestMicrophonePermission();
+                if (!permissionGranted) {
+                    status.textContent = 'Microphone permission required to start call';
+                    status.className = 'status error';
+                    return;
+                }
+            }
+            
+            try {
+                status.textContent = 'Connecting...';
+                status.className = 'status idle';
+                
+                await vapiInstance.start('ad8fb8db-1cc3-4162-8ff1-d88d75a1f930');
+                
+            } catch (error) {
+                console.error('Failed to start call:', error);
+                status.textContent = 'Failed to start call: ' + error.message;
+                status.className = 'status error';
+            }
+        }
+        
+        // Manual stop call function
+        function stopCall() {
+            if (vapiInstance) {
+                try {
+                    vapiInstance.stop();
+                } catch (error) {
+                    console.error('Error stopping call:', error);
+                }
+            }
+        }
+        
+        // Toggle mute function with better error handling
+        function toggleMute() {
+            if (vapiInstance && isCallActive) {
+                try {
+                    const currentMuteState = vapiInstance.isMuted();
+                    const newMuteState = !currentMuteState;
+                    vapiInstance.setMuted(newMuteState);
+                    
+                    // Update UI immediately, then verify after a delay
+                    updateMuteStatus();
+                } catch (error) {
+                    console.error('Error toggling mute:', error);
+                    status.textContent = 'Error toggling mute: ' + error.message;
+                    status.className = 'status error';
+                }
+            }
+        }
+        
+        // Event listeners for buttons
+        startBtn.addEventListener('click', startCall);
+        stopBtn.addEventListener('click', stopCall);
+        muteBtn.addEventListener('click', toggleMute);
+        
+        // Function to set up VAPI event listeners
+        function setupVapiEvents(vapi) {
+            vapi.on('call-start', () => {
+                console.log('Call started');
+                isCallActive = true;
+                status.textContent = 'Call active - You can now speak!';
+                status.className = 'status active';
+                updateUI();
+                // Initialize mute status after call starts
+                setTimeout(updateMuteStatus, 200);
+            });
+            
+            vapi.on('call-end', () => {
+                console.log('Call ended');
+                isCallActive = false;
+                isMuted = false; // Reset mute state
+                status.textContent = 'Call ended';
+                status.className = 'status idle';
+                updateUI();
+            });
+            
+            vapi.on('speech-start', () => {
+                console.log('Assistant started speaking');
+                if (isCallActive) {
+                    status.textContent = 'Assistant is speaking...';
+                }
+            });
+            
+            vapi.on('speech-end', () => {
+                console.log('Assistant finished speaking');
+                if (isCallActive) {
+                    status.textContent = 'Call active - You can now speak!';
+                }
+            });
+            
+            vapi.on('volume-level', (volume) => {
+                console.log('Volume level:', volume);
+            });
+            
+            vapi.on('message', (message) => {
+                console.log('Message received:', message);
+                
+                // Check for specific message types that might affect mute state
+                if (message.type === 'status-update' || message.type === 'speech-update') {
+                    // Delay to ensure VAPI internal state is updated
+                    setTimeout(updateMuteStatus, 50);
+                }
+            });
+            
+            vapi.on('error', (error) => {
+                console.error('VAPI Error:', error);
+                status.textContent = 'Error: ' + error.message;
+                status.className = 'status error';
+                isCallActive = false;
+                isMuted = false;
+                updateUI();
+            });
+        }
+        
+        // Initialize everything when page loads
+        async function initialize() {
+            // Check microphone permission on page load
+            await checkMicrophonePermission();
+            updateUI();
+        }
+        
+        // Call initialize when page loads
+        initialize();
+    </script>
 
-    window.addEventListener('resize', handleResize);
-
-    // Initialize everything when DOM is ready
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', function() {
-            createElements();
-            initializeFunctionality();
-            loadVoiceflow();
-        });
-    } else {
-        createElements();
-        initializeFunctionality();
-        loadVoiceflow();
-    }
-})();
-</script>
+    <!-- Load VAPI using their HTML script tag method -->
+    <script>
+        (function (d, t) {
+            var g = document.createElement(t),
+                s = d.getElementsByTagName(t)[0];
+            g.src = "https://cdn.jsdelivr.net/gh/VapiAI/html-script-tag@latest/dist/assets/index.js";
+            g.defer = true;
+            g.async = true;
+            s.parentNode.insertBefore(g, s);
+            g.onload = function () {
+                console.log('VAPI SDK loaded');
+                
+                // Initialize VAPI with your configuration
+                try {
+                    vapiInstance = window.vapiSDK.run({
+                        apiKey: "af0b8d1c-30fb-4644-ae95-e6b5aec3567c",
+                        assistant: "ad8fb8db-1cc3-4162-8ff1-d88d75a1f930",
+                        config: {
+                            position: "bottom-right",
+                            offset: "40px",
+                            width: "50px",
+                            height: "50px",
+                            idle: {
+                                color: `rgb(93, 254, 202)`,
+                                type: "round",
+                                icon: `https://unpkg.com/lucide-static@0.321.0/icons/phone.svg`,
+                            },
+                            loading: {
+                                color: `rgb(93, 124, 202)`,
+                                type: "round", 
+                                icon: `https://unpkg.com/lucide-static@0.321.0/icons/loader-2.svg`,
+                            },
+                            active: {
+                                color: `rgb(255, 0, 0)`,
+                                type: "round",
+                                icon: `https://unpkg.com/lucide-static@0.321.0/icons/phone-off.svg`,
+                            },
+                        }
+                    });
+                    
+                    if (vapiInstance) {
+                        console.log('VAPI instance created successfully');
+                        isVapiLoaded = true;
+                        setupVapiEvents(vapiInstance);
+                        status.textContent = 'VAPI loaded - Ready to start!';
+                        status.className = 'status idle';
+                        updateUI();
+                    } else {
+                        throw new Error('VAPI instance is null');
+                    }
+                } catch (error) {
+                    console.error('Failed to create VAPI instance:', error);
+                    status.textContent = 'Failed to initialize VAPI: ' + error.message;
+                    status.className = 'status error';
+                    isVapiLoaded = false;
+                    updateUI();
+                }
+            };
+            
+            g.onerror = function() {
+                console.error('Failed to load VAPI SDK');
+                status.textContent = 'Failed to load VAPI SDK';
+                status.className = 'status error';
+                isVapiLoaded = false;
+                updateUI();
+            };
+        })(document, "script");
+    </script>
 </body>
 </html>
